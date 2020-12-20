@@ -11,7 +11,7 @@ from random import randrange
 from operator import itemgetter
 
 path='winequality.csv'
-data=pd.read_csv(path,sep=';')
+dataset=pd.read_csv(path,sep=';')
 
 
 
@@ -23,7 +23,7 @@ def dist_euclid(x,y):
 
 
 
-def erreur_boostrap(k,ratio,folds,iterations):
+def erreur_boostrap(data,k,ratio,folds,iterations):
     
     sample=[]
     predictions=[]
@@ -82,9 +82,6 @@ def erreur_boostrap(k,ratio,folds,iterations):
                 dist=dist_euclid(idx,row)
                 distance.append((idx,dist))     
             distance=sorted(distance, key=itemgetter(1))[:k]
-            # print(distance)
-            # for i in range(k):
-            #     neighbours.append(distance[i][0])
 
             neighbours=[n_[0] for n_ in distance]
     
@@ -126,13 +123,14 @@ iterations=10
 
 
 erreurs_k=[]
-for k in range(1,10):
-    erreurs_k.append((erreur_boostrap(k, ratio, folds, iterations),k))
+for k in range(1,7):
+    erreurs_k.append((erreur_boostrap(dataset,k, ratio, folds, iterations),k))
     
 min_error=sorted(erreurs_k, key=itemgetter(0))
 
 
 # AMELIORATION:
-     # CRÉER UN MEAN 
+     # PLOT LE GRAPH LE MIN_ERROR ET K
 print("l'erreur moyenne est : ", min_error[0])     
-# print("le accuracy score est : ", 100-erreur_moyenne) 
+# print("le accuracy score est : ", 100-erreur_moyenne)
+
