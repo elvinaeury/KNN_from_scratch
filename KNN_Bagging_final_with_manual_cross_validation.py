@@ -22,10 +22,24 @@ def dist_euclid(x,y):
         return np.sqrt(distance)
 
 
+# def subsample(data,ratio):
+#     sample=[]
+#     N=round(len(dataset)*ratio) # On peut faire notre sous-echantillon à partir d'une partie des données
+#     while len(sample) < N: # tant que la taille de l'échantillon est plus petit que N
+#         index=randrange(len(dataset)) # prend une valeur au hasard et avec remise
+#         sample.append(dataset.iloc[index,:])
+#     return pd.DataFrame(sample)
+
+# data_sample=subsample(dataset,0.2)
+
+ratio=0.3
+folds=3
+iterations=10
+
+# sample_=subsample(dataset,ratio)
 
 def erreur_boostrap(data,k,ratio,folds,iterations):
     
-    sample=[]
     predictions=[]
     fold = []
     dataset_split = []
@@ -35,13 +49,8 @@ def erreur_boostrap(data,k,ratio,folds,iterations):
     
 
     for i in range(iterations): # le nombre d'échantillons = B
-        N=round(len(data)*ratio) # On peut faire notre sous-echantillon à partir d'une partie des données
-        while len(sample) < N: # tant que la taille de l'échantillon est plus petit que N
-            index=randrange(len(data)) # prend une valeur au hasard et avec remise
-            sample.append(data.iloc[index,:])
-        sample=pd.DataFrame(sample)
     
-        df_copy = data
+        df_copy = data.sample(frac=0.3).reset_index(drop=True) 
         fold_size = int(df_copy.shape[0] / folds)
         
         # for loop to save each fold
@@ -74,11 +83,14 @@ def erreur_boostrap(data,k,ratio,folds,iterations):
         
         # On a le test/ validation set (1 fold)    
             test_data=np.array(dataset_split[i])# le nombre de colonne
-                  
-            # train_data=pd.DataFrame(train_data).astype(float).values.tolist()    
+               
+            # train_data=pd.DataFrame(train_data)
+            print(train_data)
         #neighbours = []    
         for row in test_data:
+            # print(row)
             for idx in train_data:
+                # print(idx)
                 dist=dist_euclid(idx,row)
                 distance.append((idx,dist))     
             distance=sorted(distance, key=itemgetter(1))[:k]
@@ -123,7 +135,7 @@ iterations=10
 
 
 erreurs_k=[]
-for k in range(1,7):
+for k in range(1,10):
     erreurs_k.append((erreur_boostrap(dataset,k, ratio, folds, iterations),k))
     
 min_error=sorted(erreurs_k, key=itemgetter(0))
