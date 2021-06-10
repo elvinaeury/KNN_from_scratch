@@ -5,7 +5,7 @@ Created on Sun Nov  1 20:21:57 2020
 
 @author: elvinagovendasamy
 """
-#https://github.com/jamesajeeth/Data-Science/blob/master/Adaboost%20from%20scratch/Boosting%20Algorithm%20from%20scratch%20updated.ipynb
+#REFERENCE : https://github.com/jamesajeeth/Data-Science/blob/master/Adaboost%20from%20scratch/Boosting%20Algorithm%20from%20scratch%20updated.ipynb
 
 from sklearn import datasets
 from scipy import spatial
