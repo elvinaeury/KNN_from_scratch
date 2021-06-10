@@ -4,5 +4,9 @@ Different KNN implementations from scratch: using boosting methods:
 - KNN implementation with adaboost
 
 
+Application on:
+- Iris Dataset
+- winequality public dataset
+
 
 
